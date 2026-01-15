@@ -5,7 +5,6 @@ import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { useTimer } from "@/hooks/useTimer";
-import { formatTime } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 import { ErrorActiveQuiz } from "@/components/skeleton/errorActiveQuiz";
 import { useQuizSessionStore } from "@/store/quiz.store";
@@ -21,7 +20,8 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { LoadingActiveQuiz } from "../skeleton/loadingActiveQuiz";
+import { QuizTimer } from "./quizTimer";
+import { Spinner } from "@/components/ui/spinner";
 
 interface QuizIdProps {
   subtestId: string;
@@ -55,9 +55,7 @@ export const QuizId = ({ subtestId }: QuizIdProps) => {
   const remaining = useTimer(quiz?.expires_at);
 
   if (loading) {
-    return (
-      <LoadingActiveQuiz title="Memuat Quiz" desc="Memuat sesi quiz baru" />
-    );
+    return <Spinner />;
   }
 
   if (!quiz) {
@@ -83,9 +81,9 @@ export const QuizId = ({ subtestId }: QuizIdProps) => {
       : "text-foreground";
 
   return (
-    <div className="min-h-screen grid grid-cols-[260px_1fr]">
+    <div className="min-h-screen grid grid-cols-1 md:grid-cols-[220px_1fr]  lg:grid-cols-[260px_1fr]">
       {/* LEFT PANEL */}
-      <aside className="border-r p-4 space-y-4">
+      <aside className="border-b md:border-b-0 md:border-r p-4 space-y-4">
         <div className="space-y-2">
           <p className="text-sm font-medium">Progress</p>
           <Progress value={progress} />
@@ -94,19 +92,14 @@ export const QuizId = ({ subtestId }: QuizIdProps) => {
           </p>
         </div>
 
-        <div className="text-sm">
-          Sisa waktu:
-          <div className={`font-bold text-lg ${timerColor}`}>
-            {formatTime(remaining)}
-          </div>
-        </div>
+        <QuizTimer remaining={remaining} timerColor={timerColor} />
 
-        <div className="grid grid-cols-5 gap-2 pt-4">
+        <div className="grid grid-cols-6 sm:grid-cols-8 md:grid-cols-5 gap-2 pt-4">
           {quiz.questions.map((q, idx) => (
             <button
               key={q.question_number}
               onClick={() => selectQuestion(idx)}
-              className={`h-10 rounded-md text-sm font-medium
+              className={`h-9 sm:h-10 rounded-md text-sm font-medium
                 ${
                   currentIndex === idx
                     ? "bg-primary text-white"
@@ -122,8 +115,8 @@ export const QuizId = ({ subtestId }: QuizIdProps) => {
       </aside>
 
       {/* RIGHT PANEL */}
-      <main className="p-6">
-        <Card className="p-6 space-y-6">
+      <main className="p-4 sm:p-6">
+        <Card className="p-4 sm:p-6 space-y-4 sm:space-y-6">
           <h2 className="font-semibold">Soal {question.question_number}</h2>
 
           <p>{question.question_text}</p>
@@ -147,7 +140,7 @@ export const QuizId = ({ subtestId }: QuizIdProps) => {
           </div>
         </Card>
 
-        <div className="pt-6">
+        <div className="pt-6 pb-4">
           <AlertDialog
             open={openSubmitDialog}
             onOpenChange={setOpenSubmitDialog}

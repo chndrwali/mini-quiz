@@ -1,52 +1,38 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 
-import { QuizHistoryItem, QuizHistoryResponse } from "@/types/quiz";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
+
+import { formatDateTime } from "@/lib/utils";
+import { useQuizHistoryStore } from "@/store/quiz-history.store";
+import { Spinner } from "../ui/spinner";
 
 export const HistoryQuiz = () => {
   const router = useRouter();
 
-  const [history, setHistory] = useState<QuizHistoryItem[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-  const [page, setPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
-
-  const LIMIT = 10;
+  const { history, loading, error, page, totalPages, fetchHistory, setPage } =
+    useQuizHistoryStore();
 
   useEffect(() => {
-    const token = localStorage.getItem("access_token");
-
-    fetch(`/api/quiz/history?limit=${LIMIT}&offset=${(page - 1) * LIMIT}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
-      .then(async (res) => {
-        const json: QuizHistoryResponse = await res.json();
-        if (!res.ok) throw new Error();
-
-        // 🔥 sesuai struktur backend
-        setHistory(json.data?.results);
-        setTotalPages(json.data.total_pages);
-      })
-      .catch(() => {
-        setError("Gagal memuat riwayat quiz.");
-      })
-      .finally(() => setLoading(false));
+    fetchHistory(page);
   }, [page]);
 
   return (
-    <div className="p-6 space-y-6 max-w-4xl mx-auto">
-      <h1 className="text-2xl font-bold">Riwayat Quiz</h1>
+    <div className="max-w-4xl mx-auto px-4 sm:px-6 py-6 space-y-6">
+      <h1 className="text-xl sm:text-2xl font-bold">Riwayat Quiz</h1>
 
-      {loading && <p className="text-muted-foreground">Loading history...</p>}
+      {loading && (
+        <div className="flex items-center flex-col gap-4 justify-center place-content-center">
+          <Spinner />
+          <p className="text-sm text-muted-foreground">
+            Memuat riwayat quiz...
+          </p>
+        </div>
+      )}
 
       {error && (
         <Alert variant="destructive">
@@ -55,30 +41,30 @@ export const HistoryQuiz = () => {
       )}
 
       {!loading && !error && history.length === 0 && (
-        <p className="text-muted-foreground">
+        <p className="text-sm text-muted-foreground">
           Belum ada quiz yang diselesaikan.
         </p>
       )}
 
       {!loading && !error && history.length > 0 && (
         <>
-          <div className="space-y-4">
+          <div className="space-y-3">
             {history.map((item) => (
-              <Card key={item.session_id}>
-                <CardHeader className="flex flex-row items-center justify-between">
-                  <CardTitle className="text-base">
-                    {item.subtest_name}
-                  </CardTitle>
+              <Card
+                key={item.session_id}
+                className="p-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4"
+              >
+                <div className="space-y-1">
+                  <p className="font-medium">{item.subtest_name}</p>
+                  <p className="text-xs text-muted-foreground">
+                    {formatDateTime(item.completed_at)}
+                  </p>
+                </div>
 
+                <div className="flex items-center justify-between sm:justify-end gap-4">
                   <span className="text-sm font-semibold">
                     Skor: {item.score}
                   </span>
-                </CardHeader>
-
-                <CardContent className="flex justify-between items-center text-sm">
-                  <div className="text-muted-foreground">
-                    {new Date(item.completed_at).toLocaleString()}
-                  </div>
 
                   <Button
                     variant="outline"
@@ -87,30 +73,34 @@ export const HistoryQuiz = () => {
                       router.push(`/quiz/result/${item.session_id}`)
                     }
                   >
-                    Lihat Detail
+                    Detail
                   </Button>
-                </CardContent>
+                </div>
               </Card>
             ))}
           </div>
 
-          <div className="flex justify-between items-center pt-4">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-3 pt-4">
             <Button
               variant="outline"
+              size="sm"
               disabled={page === 1}
-              onClick={() => setPage((p) => p - 1)}
+              onClick={() => setPage(page - 1)}
+              className="w-full sm:w-auto"
             >
               ← Sebelumnya
             </Button>
 
-            <span className="text-sm text-muted-foreground">
+            <span className="text-xs sm:text-sm text-muted-foreground">
               Halaman {page} dari {totalPages}
             </span>
 
             <Button
               variant="outline"
+              size="sm"
               disabled={page === totalPages}
-              onClick={() => setPage((p) => p + 1)}
+              onClick={() => setPage(page + 1)}
+              className="w-full sm:w-auto"
             >
               Selanjutnya →
             </Button>

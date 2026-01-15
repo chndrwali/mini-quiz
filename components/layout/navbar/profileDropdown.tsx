@@ -59,7 +59,7 @@ export const ProfileDropdown = () => {
           <Link href="/history">
             <DropdownMenuItem className="gap-2 cursor-pointer">
               <HistoryIcon className="h-4 w-4" />
-              <span>Histori</span>
+              <span>Riwayat</span>
             </DropdownMenuItem>
           </Link>
           <DropdownMenuSeparator />
