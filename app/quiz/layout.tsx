@@ -1,14 +1,15 @@
 import { Navbar } from "@/components/layout/navbar";
 import ProtectedRoute from "@/components/layout/protectedRoute";
-import { ListQuiz } from "@/components/quiz/listQuiz";
 
-const Page = () => {
+export default function QuizLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
   return (
     <ProtectedRoute>
       <Navbar />
-      <ListQuiz />
+      {children}
     </ProtectedRoute>
   );
-};
-
-export default Page;
+}

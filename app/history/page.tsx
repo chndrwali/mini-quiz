@@ -1,12 +1,12 @@
 import { Navbar } from "@/components/layout/navbar";
 import ProtectedRoute from "@/components/layout/protectedRoute";
-import { ListQuiz } from "@/components/quiz/listQuiz";
+import { HistoryQuiz } from "@/components/quiz/historyQuiz";
 
 const Page = () => {
   return (
     <ProtectedRoute>
       <Navbar />
-      <ListQuiz />
+      <HistoryQuiz />
     </ProtectedRoute>
   );
 };

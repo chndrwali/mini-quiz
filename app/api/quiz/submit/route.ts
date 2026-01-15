@@ -3,13 +3,13 @@ import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
   try {
+    const authHeader = req.headers.get("authorization");
     const body = await req.json();
 
-    console.log("REGISTER BODY:", body);
-
-    const res = await fetch(`${config.env.apiUrl}/auth/register`, {
+    const res = await fetch(`${config.env.apiUrl}/quiz/submit`, {
       method: "POST",
       headers: {
+        Authorization: authHeader || "",
         "Content-Type": "application/json",
         Accept: "application/json",
       },
@@ -20,6 +20,9 @@ export async function POST(req: Request) {
 
     return NextResponse.json(data, { status: res.status });
   } catch {
-    return NextResponse.json({ error: "Proxy error" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Proxy submit quiz error" },
+      { status: 500 }
+    );
   }
 }
