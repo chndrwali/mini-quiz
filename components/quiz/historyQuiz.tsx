@@ -19,7 +19,7 @@ export const HistoryQuiz = () => {
 
   useEffect(() => {
     fetchHistory(page);
-  }, [page]);
+  }, [fetchHistory, page]);
 
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 py-6 space-y-6">
@@ -63,7 +63,7 @@ export const HistoryQuiz = () => {
 
                 <div className="flex items-center justify-between sm:justify-end gap-4">
                   <span className="text-sm font-semibold">
-                    Skor: {item.score}
+                    Skor: {item.score === 0 ? "0" : item.score + "0"}
                   </span>
 
                   <Button
