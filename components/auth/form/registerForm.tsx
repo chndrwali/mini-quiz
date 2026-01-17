@@ -142,6 +142,7 @@ export const RegisterForm = () => {
               placeholder="Masukkan Password"
               required
               showStrength
+              showRules
               disabled={loading}
             />
           </div>

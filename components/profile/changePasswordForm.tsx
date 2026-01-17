@@ -3,11 +3,11 @@
 import { useState } from "react";
 
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 
 import { useChangePasswordStore } from "@/store/profile.store";
+import { PasswordInput } from "../passwordInput";
 
 export const ChangePasswordForm = ({
   onSuccess,
@@ -52,9 +52,9 @@ export const ChangePasswordForm = ({
       )}
 
       <div className="space-y-1">
-        <Label>Password Lama</Label>
-        <Input
-          type="password"
+        <Label id="oldPassword">Password Lama</Label>
+        <PasswordInput
+          id="oldPassword"
           value={oldPassword}
           onChange={(e) => setOldPassword(e.target.value)}
           disabled={loading}
@@ -62,21 +62,23 @@ export const ChangePasswordForm = ({
       </div>
 
       <div className="space-y-1">
-        <Label>Password Baru</Label>
-        <Input
-          type="password"
+        <Label id="newPassword">Password Baru</Label>
+        <PasswordInput
+          id="newPassword"
           value={newPassword}
           onChange={(e) => setNewPassword(e.target.value)}
+          showStrength
           disabled={loading}
         />
       </div>
 
       <div className="space-y-1">
-        <Label>Konfirmasi Password Baru</Label>
-        <Input
-          type="password"
+        <Label id="confirmPassword">Konfirmasi Password Baru</Label>
+        <PasswordInput
+          id="confirmPassword"
           value={confirmPassword}
           onChange={(e) => setConfirmPassword(e.target.value)}
+          showStrength
           disabled={loading}
         />
       </div>

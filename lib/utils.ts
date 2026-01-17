@@ -47,28 +47,55 @@ export const config = {
 };
 
 export const getPasswordStrength = (password: string) => {
-  if (!password) return { score: 0, label: "" };
+  if (!password) {
+    return {
+      score: 0,
+      label: "",
+      color: "bg-muted",
+    };
+  }
 
-  let score = 0;
+  const hasMinLength = password.length >= 8;
+  const hasUppercase = /[A-Z]/.test(password);
+  const hasNumber = /[0-9]/.test(password);
+  const hasSpecialChar = /[^A-Za-z0-9]/.test(password);
 
-  if (password.length >= 8) score++;
-  if (/[A-Z]/.test(password)) score++;
-  if (/[0-9]/.test(password)) score++;
-  if (/[^A-Za-z0-9]/.test(password)) score++;
+  const rulesPassed = [
+    hasMinLength,
+    hasUppercase,
+    hasNumber,
+    hasSpecialChar,
+  ].filter(Boolean).length;
 
-  const map = [
-    { label: "Lemah", color: "bg-red-500" },
-    { label: "Cukup", color: "bg-yellow-500" },
-    { label: "Kuat", color: "bg-green-500" },
-    { label: "Sangat Kuat", color: "bg-green-600" },
-  ];
+  let score = 1;
+  let label = "Lemah";
+  let color = "bg-red-500";
+
+  if (rulesPassed >= 2) {
+    score = 2;
+    label = "Cukup";
+    color = "bg-yellow-500";
+  }
+
+  if (hasMinLength && hasUppercase && hasNumber && hasSpecialChar) {
+    score = 4;
+    label = "Sangat Kuat";
+    color = "bg-green-600";
+  }
 
   return {
     score,
-    label: map[Math.min(score, map.length - 1)].label,
-    color: map[Math.min(score, map.length - 1)].color,
+    label,
+    color,
   };
 };
+
+export const getPasswordRules = (password: string) => ({
+  minLength: password.length >= 8,
+  uppercase: /[A-Z]/.test(password),
+  number: /[0-9]/.test(password),
+  specialChar: /[^A-Za-z0-9]/.test(password),
+});
 
 export const getInitials = (name: string): string =>
   name
