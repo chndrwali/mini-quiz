@@ -1,14 +1,15 @@
 import { Navbar } from "@/components/layout/navbar";
 import ProtectedRoute from "@/components/layout/protectedRoute";
-import { ProfileAccount } from "@/components/profile/profileAccount";
 
-const Page = () => {
+export default function HomeLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
   return (
     <ProtectedRoute>
       <Navbar />
-      <ProfileAccount />
+      {children}
     </ProtectedRoute>
   );
-};
-
-export default Page;
+}
