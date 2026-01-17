@@ -13,6 +13,7 @@ import { ErrorListQuiz } from "@/components/skeleton/errorListQuiz";
 import { Subtest } from "@/types/quiz";
 import { TextGenerateEffect } from "../ui/text-generate-effect";
 import { ModalCustom } from "../responsiveModal";
+import { cn } from "@/lib/utils";
 
 export const ListQuiz = () => {
   const router = useRouter();
@@ -69,13 +70,13 @@ export const ListQuiz = () => {
                 <button
                   key={subtest.id}
                   onClick={() => setSelectedSubtest(subtest)}
-                  className={`w-full text-left rounded-md px-3 py-2 text-sm transition
-            ${
-              selectedSubtest?.id === subtest.id
-                ? "bg-primary text-primary-foreground"
-                : "hover:bg-muted"
-            }
-          `}
+                  className={cn(
+                    "w-full text-left rounded-md px-4 py-3 text-sm font-medium transition-all",
+                    "border",
+                    selectedSubtest?.id === subtest.id
+                      ? "bg-primary text-primary-foreground border-primary shadow-sm"
+                      : "bg-background text-foreground border-border hover:bg-muted hover:border-primary/40"
+                  )}
                 >
                   {subtest.name}
                 </button>
@@ -103,19 +104,18 @@ export const ListQuiz = () => {
                 <>
                   <div className="rounded-lg border bg-muted/40 p-4 text-sm space-y-2">
                     <p className="font-medium">📌 Petunjuk:</p>
-                    <ul className="list-disc ml-5 text-muted-foreground">
+                    <ul className="list-disc ml-5 text-muted-foreground space-y-1">
                       <li>
-                        Durasi pengerjaan adalah 10 menit. Jika waktu habis,
-                        jawaban tidak dapat dikirim.
+                        Waktu pengerjaan 10 menit. Jika waktu habis, jawaban
+                        tidak bisa dikirim.
                       </li>
                       <li>
-                        Jika terdapat satu quiz yang sedang aktif, Kamu tidak
-                        dapat memulai quiz lain.
+                        Jika ada quiz yang sedang berjalan, kamu tidak bisa
+                        memulai quiz lain.
                       </li>
                       <li>
-                        Untuk melanjutkan quiz yang sedang aktif, silakan pilih
-                        quiz apa saja. Sistem akan otomatis melanjutkan ke quiz
-                        tersebut.
+                        Untuk melanjutkan quiz yang aktif, pilih quiz apa saja
+                        dan sistem akan otomatis mengarahkan ke quiz tersebut.
                       </li>
                     </ul>
                   </div>

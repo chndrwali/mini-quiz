@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { ProfileDropdown } from "./profileDropdown";
 import { BookOpen } from "lucide-react";
+import { ColourfulText } from "@/components/ui/colourfull-text";
 
 export const Navbar = () => {
   return (
@@ -15,7 +16,9 @@ export const Navbar = () => {
           <div className="flex items-center justify-center h-8 w-8 rounded-lg bg-primary text-primary-foreground">
             <BookOpen className="h-5 w-5" />
           </div>
-          <span className="hidden sm:inline">Mini Quiz</span>
+          <span className="hidden sm:inline">
+            <ColourfulText text="Mini Quiz App" />
+          </span>
         </Link>
 
         <div className="flex items-center gap-2">
