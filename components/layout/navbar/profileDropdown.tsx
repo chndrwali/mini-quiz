@@ -9,20 +9,13 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogTitle,
-} from "@/components/ui/alert-dialog";
 import { User, LogOut, HistoryIcon } from "lucide-react";
 import { useAuthStore } from "@/store/auth.store";
 import Link from "next/link";
 import { useSafeProfile } from "@/hooks/useSafeProfile";
 import { UserAvatar } from "./user-avatar";
 import { useProfileStore } from "@/store/profile.store";
+import { AlertDialogCustom } from "@/components/AlertDialogCustom";
 
 export const ProfileDropdown = () => {
   const [showLogoutDialog, setShowLogoutDialog] = useState(false);
@@ -77,23 +70,15 @@ export const ProfileDropdown = () => {
         </DropdownMenuContent>
       </DropdownMenu>
 
-      <AlertDialog open={showLogoutDialog} onOpenChange={setShowLogoutDialog}>
-        <AlertDialogContent>
-          <AlertDialogTitle>Confirm Logout</AlertDialogTitle>
-          <AlertDialogDescription>
-            Apakah Anda yakin ingin logout dari akun ini?
-          </AlertDialogDescription>
-          <div className="flex justify-end gap-2">
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <AlertDialogAction
-              onClick={handleLogoutConfirm}
-              className="bg-destructive hover:bg-destructive/90"
-            >
-              Logout
-            </AlertDialogAction>
-          </div>
-        </AlertDialogContent>
-      </AlertDialog>
+      <AlertDialogCustom
+        open={showLogoutDialog}
+        onOpenChange={setShowLogoutDialog}
+        onClick={handleLogoutConfirm}
+        title="Konfirmasi Logout"
+        description="Apakah Anda yakin ingin logout dari akun ini?"
+        textConfirm="Logout"
+        classNameConfirm="bg-destructive hover:bg-destructive/90"
+      />
     </>
   );
 };
