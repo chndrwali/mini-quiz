@@ -11,16 +11,16 @@ import { useSafeProfile } from "@/hooks/useSafeProfile";
 import { ModalCustom } from "../responsiveModal";
 import { ChangePasswordForm } from "./changePasswordForm";
 import { useRouter } from "next/navigation";
+import { LoaderFive } from "../ui/loader";
+import { toast } from "sonner";
 
 export const ProfileAccount = () => {
   const router = useRouter();
-  const { loading, fetchProfile } = useProfileStore();
-
-  const profile = useSafeProfile();
 
   const [openEdit, setOpenEdit] = useState(false);
-
   const [openPassword, setOpenPassword] = useState(false);
+  const { loading, fetchProfile } = useProfileStore();
+  const profile = useSafeProfile();
 
   useEffect(() => {
     fetchProfile();
@@ -29,18 +29,18 @@ export const ProfileAccount = () => {
 
   const handleProfileUpdateSuccess = () => {
     setOpenEdit(false);
+    toast.success("Profil berhasil diperbarui", { position: "top-center" });
   };
 
   const handlePasswordChangeSuccess = () => {
     setOpenPassword(false);
+    toast.success("Password berhasil diubah", { position: "top-center" });
   };
 
-  if (loading) {
+  if (loading || !profile) {
     return (
-      <div className="min-h-screen flex items-center justify-center px-4">
-        <div className="max-w-md w-full space-y-6 text-center">
-          <h2 className="text-2xl font-bold">Gagal memuat profil</h2>
-        </div>
+      <div className="w-full h-[60vh] flex items-center justify-center">
+        <LoaderFive text="Loading profile" />
       </div>
     );
   }

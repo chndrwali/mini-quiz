@@ -6,7 +6,6 @@ interface ProfileState {
   loading: boolean;
   updating: boolean;
   error: string | null;
-
   fetchProfile: () => Promise<void>;
   updateProfile: (payload: { name: string; email: string }) => Promise<boolean>;
   clearProfile: () => void;

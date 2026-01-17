@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -21,10 +20,13 @@ import {
 import { User, LogOut, HistoryIcon } from "lucide-react";
 import { useAuthStore } from "@/store/auth.store";
 import Link from "next/link";
+import { useSafeProfile } from "@/hooks/useSafeProfile";
+import { UserAvatar } from "./user-avatar";
 
 export const ProfileDropdown = () => {
   const [showLogoutDialog, setShowLogoutDialog] = useState(false);
   const logout = useAuthStore((state) => state.logout);
+  const profile = useSafeProfile();
 
   const handleLogoutClick = () => {
     setShowLogoutDialog(true);
@@ -40,15 +42,11 @@ export const ProfileDropdown = () => {
       <DropdownMenu modal={false}>
         <DropdownMenuTrigger asChild>
           <button className="rounded-full border border-border p-1 hover:bg-secondary transition-colors">
-            <Avatar className="h-8 w-8">
-              <AvatarFallback className="bg-primary text-primary-foreground font-semibold">
-                U
-              </AvatarFallback>
-            </Avatar>
+            <UserAvatar name={profile.name} />
           </button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end" className="w-56">
-          <DropdownMenuLabel>Akun</DropdownMenuLabel>
+          <DropdownMenuLabel>{profile.email}</DropdownMenuLabel>
           <DropdownMenuSeparator />
           <Link href="/profile">
             <DropdownMenuItem className="gap-2 cursor-pointer">

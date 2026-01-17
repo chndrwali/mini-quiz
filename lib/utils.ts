@@ -69,3 +69,11 @@ export const getPasswordStrength = (password: string) => {
     color: map[Math.min(score, map.length - 1)].color,
   };
 };
+
+export const getInitials = (name: string): string =>
+  name
+    .split(" ")
+    .map((part) => part[0])
+    .join("")
+    .toUpperCase()
+    .slice(0, 2);
