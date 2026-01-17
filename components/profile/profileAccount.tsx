@@ -10,13 +10,10 @@ import { ProfileForm } from "./profileForm";
 import { useSafeProfile } from "@/hooks/useSafeProfile";
 import { ModalCustom } from "../responsiveModal";
 import { ChangePasswordForm } from "./changePasswordForm";
-import { useRouter } from "next/navigation";
 import { LoaderFive } from "../ui/loader";
 import { toast } from "sonner";
 
 export const ProfileAccount = () => {
-  const router = useRouter();
-
   const [openEdit, setOpenEdit] = useState(false);
   const [openPassword, setOpenPassword] = useState(false);
   const { loading, fetchProfile } = useProfileStore();
@@ -24,8 +21,7 @@ export const ProfileAccount = () => {
 
   useEffect(() => {
     fetchProfile();
-    router.replace("/profile");
-  }, [fetchProfile, router]);
+  }, [fetchProfile]);
 
   const handleProfileUpdateSuccess = () => {
     setOpenEdit(false);

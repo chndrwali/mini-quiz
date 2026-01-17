@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -22,11 +22,17 @@ import { useAuthStore } from "@/store/auth.store";
 import Link from "next/link";
 import { useSafeProfile } from "@/hooks/useSafeProfile";
 import { UserAvatar } from "./user-avatar";
+import { useProfileStore } from "@/store/profile.store";
 
 export const ProfileDropdown = () => {
   const [showLogoutDialog, setShowLogoutDialog] = useState(false);
   const logout = useAuthStore((state) => state.logout);
   const profile = useSafeProfile();
+  const { fetchProfile } = useProfileStore();
+
+  useEffect(() => {
+    fetchProfile();
+  }, [fetchProfile]);
 
   const handleLogoutClick = () => {
     setShowLogoutDialog(true);
