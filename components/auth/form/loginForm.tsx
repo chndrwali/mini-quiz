@@ -46,6 +46,11 @@ export const LoginForm = () => {
       }
 
       const accessToken = data.data?.access_token;
+      if (!accessToken) {
+        toast.error("Tidak ada akses token yang diterima", {
+          position: "top-center",
+        });
+      }
       setToken(accessToken);
 
       router.push("/dashboard");

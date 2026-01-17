@@ -14,13 +14,15 @@ export default function ProtectedRoute({
   const router = useRouter();
   const token = useAuthStore((state) => state.token);
 
+  const isValidToken = token && token !== "undefined";
+
   useEffect(() => {
-    if (!token) {
+    if (!isValidToken) {
       router.replace("/login");
     }
-  }, [token, router]);
+  }, [router, isValidToken]);
 
-  if (!token) {
+  if (!isValidToken) {
     return (
       <>
         <Navbar />

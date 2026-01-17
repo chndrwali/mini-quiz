@@ -4,7 +4,6 @@ interface AuthState {
   token: string | null;
   setToken: (token: string) => void;
   logout: () => Promise<void>;
-  isAuthenticated: boolean;
   loggingOut: boolean;
 }
 
@@ -13,10 +12,10 @@ export const useAuthStore = create<AuthState>((set) => ({
     typeof window !== "undefined" ? localStorage.getItem("access_token") : null,
 
   setToken: (token) => {
+    if (!token) return;
     localStorage.setItem("access_token", token);
     set({ token });
   },
-  isAuthenticated: true,
   loggingOut: false,
 
   logout: async () => {
@@ -37,8 +36,8 @@ export const useAuthStore = create<AuthState>((set) => ({
       localStorage.removeItem("refresh_token");
 
       set({
-        isAuthenticated: false,
         loggingOut: false,
+        token: null,
       });
 
       window.location.href = "/login";
