@@ -45,3 +45,27 @@ export const config = {
       "https://apiquiz.ambisiusacademy.com/api/v1",
   },
 };
+
+export const getPasswordStrength = (password: string) => {
+  if (!password) return { score: 0, label: "" };
+
+  let score = 0;
+
+  if (password.length >= 8) score++;
+  if (/[A-Z]/.test(password)) score++;
+  if (/[0-9]/.test(password)) score++;
+  if (/[^A-Za-z0-9]/.test(password)) score++;
+
+  const map = [
+    { label: "Lemah", color: "bg-red-500" },
+    { label: "Cukup", color: "bg-yellow-500" },
+    { label: "Kuat", color: "bg-green-500" },
+    { label: "Sangat Kuat", color: "bg-green-600" },
+  ];
+
+  return {
+    score,
+    label: map[Math.min(score, map.length - 1)].label,
+    color: map[Math.min(score, map.length - 1)].color,
+  };
+};
