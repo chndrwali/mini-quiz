@@ -21,7 +21,8 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { QuizTimer } from "./quizTimer";
-import { Spinner } from "@/components/ui/spinner";
+import { LoaderFive } from "../ui/loader";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 
 interface QuizIdProps {
   subtestId: string;
@@ -55,7 +56,11 @@ export const QuizId = ({ subtestId }: QuizIdProps) => {
   const remaining = useTimer(quiz?.expires_at);
 
   if (loading) {
-    return <Spinner />;
+    return (
+      <div className="w-full h-[60vh] flex items-center justify-center">
+        <LoaderFive text="Loading quiz" />
+      </div>
+    );
   }
 
   if (!quiz) {
@@ -72,6 +77,17 @@ export const QuizId = ({ subtestId }: QuizIdProps) => {
   const progress = (answeredCount / quiz.questions.length) * 100;
 
   const remainingSeconds = Math.floor(remaining / 1000);
+
+  const isFirst = currentIndex === 0;
+  const isLast = currentIndex === quiz.questions.length - 1;
+
+  const goPrev = () => {
+    if (!isFirst) selectQuestion(currentIndex - 1);
+  };
+
+  const goNext = () => {
+    if (!isLast) selectQuestion(currentIndex + 1);
+  };
 
   const timerColor =
     remainingSeconds <= 120
@@ -117,7 +133,29 @@ export const QuizId = ({ subtestId }: QuizIdProps) => {
       {/* RIGHT PANEL */}
       <main className="p-4 sm:p-6">
         <Card className="p-4 sm:p-6 space-y-4 sm:space-y-6">
-          <h2 className="font-semibold">Soal {question.question_number}</h2>
+          <div className="flex items-center justify-between gap-4">
+            <h2 className="font-semibold">Soal {question.question_number}</h2>
+
+            <div className="flex items-center gap-2">
+              <Button
+                size="sm"
+                variant="outline"
+                onClick={goPrev}
+                disabled={isFirst}
+              >
+                <ArrowLeft className="size-5" />
+              </Button>
+
+              <Button
+                size="sm"
+                variant="outline"
+                onClick={goNext}
+                disabled={isLast}
+              >
+                <ArrowRight className="size-5" />
+              </Button>
+            </div>
+          </div>
 
           <p>{question.question_text}</p>
 

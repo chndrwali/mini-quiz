@@ -43,12 +43,16 @@ export const RegisterForm = () => {
         }),
       });
 
-      const data = await res.json;
+      if (res.status === 409) {
+        toast.error("Email sudah terdaftar", { position: "top-center" });
+        setLoading(false);
+        setSuccess(false);
+        return;
+      }
 
-      console.log(data);
-
-      if (!res.ok) {
-        toast.error("Registrasi gagal. Silakan coba lagi.");
+      if (res.status === 400) {
+        toast.error("Email atau password salah", { position: "top-center" });
+        setLoading(false);
         setSuccess(false);
         return;
       }
@@ -61,7 +65,7 @@ export const RegisterForm = () => {
       setError(
         err.response?.data?.error ||
           err.response?.data?.message ||
-          "Registrasi gagal. Silakan coba lagi."
+          "Registrasi gagal. Silakan coba lagi.",
       );
     } finally {
       setLoading(false);
@@ -114,7 +118,7 @@ export const RegisterForm = () => {
               id="name"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              placeholder="Masukkan Nama Lengkap Anda"
+              placeholder="Masukkan Nama Lengkap Kamu"
               disabled={loading}
               required
             />

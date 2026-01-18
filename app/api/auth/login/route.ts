@@ -16,8 +16,25 @@ export async function POST(req: Request) {
 
     const data = await res.json();
 
-    return NextResponse.json(data, { status: res.status });
-  } catch {
+    if (!res.ok) {
+      return NextResponse.json(
+        {
+          error: data.message || "Login gagal",
+          status: res.status,
+        },
+        { status: res.status },
+      );
+    }
+
+    return NextResponse.json(
+      {
+        data,
+      },
+      { status: 200 },
+    );
+  } catch (error) {
+    console.error("Proxy login error:", error);
+
     return NextResponse.json({ error: "Proxy login error" }, { status: 500 });
   }
 }

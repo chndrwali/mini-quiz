@@ -5,8 +5,6 @@ export async function POST(req: Request) {
   try {
     const body = await req.json();
 
-    console.log("REGISTER BODY:", body);
-
     const res = await fetch(`${config.env.apiUrl}/auth/register`, {
       method: "POST",
       headers: {
@@ -18,8 +16,28 @@ export async function POST(req: Request) {
 
     const data = await res.json();
 
-    return NextResponse.json(data, { status: res.status });
-  } catch {
-    return NextResponse.json({ error: "Proxy error" }, { status: 500 });
+    if (!res.ok) {
+      return NextResponse.json(
+        {
+          error: data.message || "Registrasi gagal",
+          status: res.status,
+        },
+        { status: res.status },
+      );
+    }
+
+    return NextResponse.json(
+      {
+        message: "Registrasi berhasil, silakan cek email untuk verifikasi",
+      },
+      { status: 201 },
+    );
+  } catch (error) {
+    console.error("REGISTER PROXY ERROR:", error);
+
+    return NextResponse.json(
+      { error: "Proxy register error" },
+      { status: 500 },
+    );
   }
 }

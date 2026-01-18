@@ -42,14 +42,12 @@ export const LoginForm = () => {
       const data = await res.json();
 
       if (!res.ok) {
-        toast.error(data.error || "Login gagal");
+        toast.error(data.error || "Login gagal", { position: "top-center" });
       }
 
       const accessToken = data.data?.access_token;
       if (!accessToken) {
-        toast.error("Tidak ada akses token yang diterima", {
-          position: "top-center",
-        });
+        throw new Error("Tidak ada akses token yang diterima");
       }
       setToken(accessToken);
 
@@ -57,8 +55,9 @@ export const LoginForm = () => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       setError(
-        err.response?.data?.error || "Login gagal. Periksa email dan password."
+        err.response?.data?.error || "Login gagal. Periksa email dan password.",
       );
+      localStorage.removeItem("access_token");
     } finally {
       setLoading(false);
     }
