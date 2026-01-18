@@ -26,12 +26,7 @@ export async function POST(req: Request) {
       );
     }
 
-    return NextResponse.json(
-      {
-        data,
-      },
-      { status: 200 },
-    );
+    return NextResponse.json(data, { status: res.status });
   } catch (error) {
     console.error("Proxy login error:", error);
 
