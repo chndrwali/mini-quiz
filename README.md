@@ -1,154 +1,185 @@
-# Mini Quiz App Ambisius Academy – Frontend (User Role)
+# Mini Quiz App – Ambisius Academy (Frontend / User)
 
-Sebuah **aplikasi web quiz** dibuat dengan **Next.js App Router**
+Sebuah **aplikasi web quiz** yang dibangun menggunakan **Next.js App Router**.  
+Repository ini berisi **frontend (role user)** untuk platform Ambisius Academy.
 
 ---
 
-## Tech Stack
+## 🚀 Tech Stack
 
-- **Next.js 16.1.2 (App Router)**
+- **Next.js 16.1.2** (App Router)
 - **TypeScript**
 - **React 19.2.3**
-- **Zustand** - State Management
-- **TailwindCSS**
-- **ShadCN/UI** - UI Component
-- **Aceternity UI** - UI Animation
+- **Zustand** – State Management
+- **Tailwind CSS**
+- **ShadCN/UI** – UI Components
+- **Aceternity UI** – Animasi & Efek UI
 
 ---
 
-## Fitur
+## ✨ Fitur
 
-### Autentikasi
+### 🔐 Autentikasi
 
 - Login & Register
-- Email Verifikasi
+- Verifikasi Email
 - Logout
 
-### Manajemen Profil
+### 👤 Manajemen Profil
 
-- View Profile (read-only)
+- Lihat profil (read-only)
 - Update nama & email
 - Ganti password
 
-### Sistem Kuis
+### 📝 Sistem Kuis
 
 - Daftar kuis
 - Mulai / melanjutkan sesi kuis
 - Auto-save jawaban (localStorage)
 - Countdown timer
 - Submit kuis
-- Result kuis (skor, akurasi, waktu)
+- Hasil kuis (skor, akurasi, durasi)
 - Riwayat kuis (pagination)
 
-### Proteksi Route
+### 🛡 Proteksi Route
 
-- Dashboard, History, Profile, Quiz Page (Token-based access)
+- Dashboard, History, Profile, Quiz Page (akses berbasis token)
 
 ---
 
-## Persyaratan Sistem
+## 🖥 Persyaratan Sistem
 
-sebelum menjalankan aplikasi ini secara lokal, pastikan anda sudah memenuhi persyaratan sistem berikut:
+Sebelum menjalankan project ini secara lokal, pastikan:
 
-- Menginstall [Node.js](https://nodejs.org/en/)
-- Browser yang kompatibel seperti Google Chrome, Mozilla Firefox, atau Microsoft Edge
-- Koneksi internet yang stabil
-- Sistem operasi yang kompatibel seperti Windows, Linux, atau MacOS
+- [Node.js](https://nodejs.org/en/) sudah terinstall
+- Browser modern (Chrome, Firefox, Edge)
+- Koneksi internet stabil
+- OS: Windows / Linux / macOS
 
-## Panduan Instalasi
+---
 
-<ol>
-  <li>
-    <a href="#clone-repository">Clone repository</a>
-  </li>
-  <li>
-    <a href="#install-dependencies">Install dependencies</a>
-  </li>
-    <li>
-    <a href="#environment-variables">Environment Variables</a>
-  </li>
-    <li>
-    <a href="#menjalankan-aplikasi">Menjalankan Aplikasi</a>
-  </li>
+## ⚙️ Panduan Instalasi
 
-</ol>
-
-## Clone repository
-
-Clone repository ini ke direktori lokal anda dengan menjalankan perintah berikut:
+### 1️⃣ Clone Repository
 
 ```bash
-  git clone https://github.com/chndrwali/mini-quiz
+git clone https://github.com/chndrwali/mini-quiz
 ```
 
-## Install dependencies
-
-Masuk ke direktori lokal repository yang telah di-clone, lalu jalankan perintah berikut:
+### 2️⃣ Install Dependencies
 
 ```bash
-  npm install
+npm install
 ```
 
-## Environment Variables
+### 3️⃣ Environment Variables
 
-Buat sebuah file `.env` atau `.env.local` di root directory isi dengan :
+Buat file `.env` atau `.env.local` di root directory:
 
 ```env
 NEXT_PUBLIC_API_URL=https://apiquiz.ambisiusacademy.com/api/v1
 ```
 
-## Menjalankan aplikasi
+### 4️⃣ Menjalankan Aplikasi
 
-Setelah itu, jalankan perintah berikut untuk menjalankan aplikasi:
-
-```bash
-  npm run dev
-```
-
-atau
+Mode development:
 
 ```bash
-  npm run build
+npm run dev
 ```
 
-Aplikasi secara default akan berjalan pada port 3000. buka browser dan akses `http://localhost:3000` untuk mengakses aplikasi.
+Build production:
 
-## Struktur Folder
+```bash
+npm run build
+```
 
+Aplikasi akan berjalan di **http://localhost:3000** secara default.
+
+---
+
+## 📁 Struktur Folder
+
+```text
 mini-quiz/
-├── app/
-│ ├── (auth) # Route Group Halaman Login, Register, Email Verifikasi (Public Route)
-│ ├── (home) # Route Group Halaman Dashboard, History Profile (Protected Route)  
-│ ├── api/ # API routes (proxy ke backend)
-│ ├── quiz/ # Halaman quiz (list, start, result, history)
+├── app/                      # Next.js App Router
+│   ├── (auth)/               # Public route (Login, Register, Verifikasi Email)
+│   ├── (home)/               # Protected route (Dashboard, History, Profile)
+│   ├── quiz/                 # Halaman kuis (list, start, result, history)
+│   └── api/                  # API route (proxy ke backend)
 │
-├── components/
-│ ├── auth/ # Form login, register, dan komponen verifikasi email
-│ ├── layout/ # Layout komponen protected route dan navbar  
-│ ├── profile/ # Form profile & change password
-│ ├── quiz/ # Komponent kuis  
-│ ├── ui/ # Komponen UI (shadcn/ui)
-│ └── skeleton/ # Loading & error state
+├── components/               # Reusable UI components
+│   ├── auth/                 # Form & komponen autentikasi
+│   ├── layout/               # Layout, navbar, protected layout
+│   ├── profile/              # Form profil & ganti password
+│   ├── quiz/                 # Komponen kuis
+│   ├── skeleton/             # Loading & error state
+│   └── ui/                   # Komponen ShadCN/UI
 │
-├── store/
-│ ├── auth.store.ts # Auth state
-│ ├── profile.store.ts # Profile state
-│ ├── quiz-history.store.ts # History quiz state  
-│ ├── quiz-result.store.ts # Result quiz state  
-│ ├── quiz.store.ts # Quiz session
-│ └── subtest.store.ts # List quiz state
+├── store/                    # Zustand state management
+│   ├── auth.store.ts         # State autentikasi
+│   ├── profile.store.ts      # State profil user
+│   ├── quiz.store.ts         # State sesi kuis
+│   ├── quiz-result.store.ts  # State hasil kuis
+│   ├── quiz-history.store.ts # State riwayat kuis
+│   └── subtest.store.ts      # State daftar kuis
 │
-├── hooks/
-│ ├── useSafeProfile.ts # Hook profile aman (non-null)
-│ └── useTimer.ts # Hook timer quiz
+├── hooks/                    # Custom hooks
+│   ├── useSafeProfile.ts     # Hook profile aman (non-null)
+│   └── useTimer.ts           # Countdown timer kuis
 │
-├── types/
-│ ├── profile.ts
-│ └── quiz.ts
+├── types/                    # TypeScript types
+│   ├── profile.ts
+│   └── quiz.ts
 │
-└── lib/
-└── utils.ts # Helper & konfigurasi
+├── lib/                      # Helper & utility
+│   └── utils.ts
+│
+├── public/                   # Static assets
+├── styles/                   # Global styles
+├── .env.example              # Contoh environment variable
+├── next.config.js
+├── package.json
+└── README.md
+```
 
-## 🧑‍💻 Author
+---
 
-Built by Candra Wali Sanjaya
+## 🧠 Keputusan Teknis
+
+### 🔑 Autentikasi
+
+- Menggunakan JWT (token-based authentication)
+- Token disimpan di `localStorage`
+- Logout melakukan call API dan menghapus token
+
+### 🌐 API & Routing
+
+- Semua request backend melalui **Next.js API Routes**
+- Tujuan:
+  - Menghindari masalah CORS
+  - Menyatukan logic authorization
+  - Memisahkan frontend & backend secara rapi
+
+### 🧩 State Management
+
+- Menggunakan **Zustand**
+- Alasan:
+  - Sederhana & ringan
+  - Minim boilerplate
+  - Cocok untuk skala kecil–menengah
+- Business logic & side-effect (fetch API) dilakukan di store
+- Komponen UI fokus pada tampilan
+
+### 🪝 Custom Hook
+
+- `useSafeProfile`  
+  Memastikan komponen UI tidak perlu cek `null` pada data profil
+- `useTimer`  
+  Mengatur countdown berdasarkan `expires_at` dari backend
+
+---
+
+## 👨‍💻 Author
+
+Dibuat oleh **Candra Wali Sanjaya**
