@@ -49,9 +49,10 @@ export const VerifyEmail = () => {
 
       <CardContent className="space-y-4">
         {loading && (
-          <p>
-            <Spinner /> Memverifikasi akun...
-          </p>
+          <div className="flex flex-col items-center justify-center gap-2">
+            <Spinner />
+            <p>Memverifikasi akun...</p>
+          </div>
         )}
 
         {error && (
