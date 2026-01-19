@@ -1,6 +1,11 @@
 import { Suspense } from "react";
 import { VerifyEmail } from "@/components/auth/verifyEmail";
 import { Spinner } from "@/components/ui/spinner";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Verify Email",
+};
 
 const Page = () => {
   return (
