@@ -10,6 +10,7 @@ import { Label } from "@/components/ui/label";
 
 import { useSafeProfile } from "@/hooks/useSafeProfile";
 import { useProfileStore } from "@/store/profile.store";
+import { toast } from "sonner";
 
 interface ProfileFormProps {
   onSuccess?: () => void;
@@ -25,16 +26,28 @@ export const ProfileForm = ({ onSuccess }: ProfileFormProps) => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!name.trim() || !email.trim()) {
+      toast.error("Nama dan email wajib diisi", { position: "top-center" });
+      return;
+    }
 
-    const success = await updateProfile({
-      name,
-      email,
-    });
+    try {
+      const success = await updateProfile({ name, email });
 
-    if (success && onSuccess) {
-      setName("");
-      setEmail("");
-      onSuccess();
+      if (!success) {
+        toast.error("Gagal memperbarui profil", { position: "top-center" });
+        return;
+      }
+
+      toast.success("Profil berhasil diperbarui", { position: "top-center" });
+
+      if (success && onSuccess) {
+        onSuccess();
+      }
+    } catch (error) {
+      toast.error("Terjadi kesalahan, silakan coba lagi", {
+        position: "top-center",
+      });
     }
   };
 

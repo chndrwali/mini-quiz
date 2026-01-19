@@ -105,8 +105,12 @@ mini-quiz/
 ├── app/                      # Next.js App Router
 │   ├── (auth)/               # Public route (Login, Register, Verifikasi Email)
 │   ├── (home)/               # Protected route (Dashboard, History, Profile)
+│   ├── api/                  # API route (proxy ke backend)
 │   ├── quiz/                 # Halaman kuis (list, start, result, history)
-│   └── api/                  # API route (proxy ke backend)
+│   ├── favicon.ico
+│   ├── globals.css           # Style CSS global
+│   ├── layout.tsx            # Layout global
+│   └── page.tsx              # Halaman root untuk redirect ke /dashboard
 │
 ├── components/               # Reusable UI components
 │   ├── auth/                 # Form & komponen autentikasi
@@ -136,8 +140,6 @@ mini-quiz/
 │   └── utils.ts
 │
 ├── public/                   # Static assets
-├── styles/                   # Global styles
-├── .env.example              # Contoh environment variable
 ├── next.config.js
 ├── package.json
 └── README.md
